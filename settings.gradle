@@ -1,1 +1,1 @@
-include ':app', ':manager', ':baselib'
+include ':app', ':manager', ':baselib', ':dbmanager'
