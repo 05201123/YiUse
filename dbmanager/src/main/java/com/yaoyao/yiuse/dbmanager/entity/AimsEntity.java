@@ -5,6 +5,8 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Unique;
 
+import java.util.UUID;
+
 /**
  * Created by zhangjd on 2019/5/28.
  */
@@ -49,5 +51,10 @@ public class AimsEntity {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public static AimsEntity createEntity(String sortName,String userId) {
+        AimsEntity entity=new AimsEntity(null,sortName,userId ,UUID.randomUUID().toString());
+        return entity;
     }
 }

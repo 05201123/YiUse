@@ -7,8 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.yaoyao.yiuse.base.db.DbManager;
+import com.yaoyao.yiuse.base.userinfo.UserInfo;
 import com.yaoyao.yiuse.base.util.FormatUtils;
 import com.yaoyao.yiuse.base.util.ToastUtils;
+import com.yaoyao.yiuse.dbmanager.dao.AimsEntityDao;
+import com.yaoyao.yiuse.dbmanager.dao.ResourcesEntityDao;
+import com.yaoyao.yiuse.dbmanager.entity.AimsEntity;
 import com.yaoyao.yiuse.manager.R;
 import com.yaoyao.yiuse.manager.R2;
 
@@ -69,8 +74,14 @@ public class CreateSortDialog extends Dialog {
         if(TextUtils.isEmpty(sortName)){
             String realName=sortName.trim();
             if(FormatUtils.isVerifyName(realName)){
-
-
+                AimsEntityDao dao=DbManager.getInstance().getEntityDao(AimsEntityDao.class);
+                boolean isExist=dao.queryBuilder().where(ResourcesEntityDao.Properties.Name.eq(sortName)).count()>0?true:false;
+                if(isExist){
+                    ToastUtils.showShortToast("该分类已存在");
+                }else{
+                    dao.insert(AimsEntity.createEntity(sortName, UserInfo.getUserId()));
+                    dismiss();
+                }
 
             }else{
                 ToastUtils.showShortToast("不合法");

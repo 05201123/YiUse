@@ -44,7 +44,7 @@ public class DbManager {
         return mInstance;
     }
 
-    public <T extends AbstractDao> T getEntityDao (Class entity,Class T){
+    public <T extends AbstractDao> T getEntityDao (Class T){
         return (T)mDaoSession.getDao(mDaoSession.getEntityDao(T));
     }
 
