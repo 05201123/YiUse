@@ -27,8 +27,9 @@ public class AimsEntityDao extends AbstractDao<AimsEntity, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property AimName = new Property(1, String.class, "aimName", false, "AIM_NAME");
         public final static Property UserId = new Property(2, String.class, "userId", false, "USER_ID");
-        public final static Property AimId = new Property(3, String.class, "aimId", false, "AIM_ID");
     }
+
+    private DaoSession daoSession;
 
 
     public AimsEntityDao(DaoConfig config) {
@@ -37,6 +38,7 @@ public class AimsEntityDao extends AbstractDao<AimsEntity, Long> {
     
     public AimsEntityDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -45,8 +47,7 @@ public class AimsEntityDao extends AbstractDao<AimsEntity, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"AIMS_ENTITY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"AIM_NAME\" TEXT," + // 1: aimName
-                "\"USER_ID\" TEXT," + // 2: userId
-                "\"AIM_ID\" TEXT UNIQUE );"); // 3: aimId
+                "\"USER_ID\" TEXT);"); // 2: userId
     }
 
     /** Drops the underlying database table. */
@@ -73,11 +74,6 @@ public class AimsEntityDao extends AbstractDao<AimsEntity, Long> {
         if (userId != null) {
             stmt.bindString(3, userId);
         }
- 
-        String aimId = entity.getAimId();
-        if (aimId != null) {
-            stmt.bindString(4, aimId);
-        }
     }
 
     @Override
@@ -98,11 +94,12 @@ public class AimsEntityDao extends AbstractDao<AimsEntity, Long> {
         if (userId != null) {
             stmt.bindString(3, userId);
         }
- 
-        String aimId = entity.getAimId();
-        if (aimId != null) {
-            stmt.bindString(4, aimId);
-        }
+    }
+
+    @Override
+    protected final void attachEntity(AimsEntity entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     @Override
@@ -115,8 +112,7 @@ public class AimsEntityDao extends AbstractDao<AimsEntity, Long> {
         AimsEntity entity = new AimsEntity( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // aimName
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // userId
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // aimId
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2) // userId
         );
         return entity;
     }
@@ -126,7 +122,6 @@ public class AimsEntityDao extends AbstractDao<AimsEntity, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setAimName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setUserId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setAimId(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
      }
     
     @Override

@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.yaoyao.yiuse.manager.activity.ManagerMainActivity;
+import com.yaoyao.yiuse.manager.activity.view.activity.ManagerMainActivity;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -49,7 +49,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"RESOURCES_ENTITY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"RES_ID\" TEXT UNIQUE ," + // 1: resId
-                "\"AIM_ID\" TEXT," + // 2: aimId
+                "\"AIM_ID\" TEXT NOT NULL ," + // 2: aimId
                 "\"LOCALPATH\" TEXT," + // 3: localpath
                 "\"NET_URL\" TEXT," + // 4: netUrl
                 "\"MD5\" TEXT," + // 5: md5
@@ -76,11 +76,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
         if (resId != null) {
             stmt.bindString(2, resId);
         }
- 
-        String aimId = entity.getAimId();
-        if (aimId != null) {
-            stmt.bindString(3, aimId);
-        }
+        stmt.bindString(3, entity.getAimId());
  
         String localpath = entity.getLocalpath();
         if (localpath != null) {
@@ -117,11 +113,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
         if (resId != null) {
             stmt.bindString(2, resId);
         }
- 
-        String aimId = entity.getAimId();
-        if (aimId != null) {
-            stmt.bindString(3, aimId);
-        }
+        stmt.bindString(3, entity.getAimId());
  
         String localpath = entity.getLocalpath();
         if (localpath != null) {
@@ -155,7 +147,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
         ResourcesEntity entity = new ResourcesEntity( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // resId
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // aimId
+            cursor.getString(offset + 2), // aimId
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // localpath
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // netUrl
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // md5
@@ -169,7 +161,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
     public void readEntity(Cursor cursor, ResourcesEntity entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setResId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setAimId(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setAimId(cursor.getString(offset + 2));
         entity.setLocalpath(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setNetUrl(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setMd5(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));

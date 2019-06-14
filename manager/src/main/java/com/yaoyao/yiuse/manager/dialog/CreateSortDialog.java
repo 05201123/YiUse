@@ -12,12 +12,13 @@ import com.yaoyao.yiuse.base.userinfo.UserInfo;
 import com.yaoyao.yiuse.base.util.FormatUtils;
 import com.yaoyao.yiuse.base.util.ToastUtils;
 import com.yaoyao.yiuse.dbmanager.dao.AimsEntityDao;
-import com.yaoyao.yiuse.dbmanager.dao.ResourcesEntityDao;
 import com.yaoyao.yiuse.dbmanager.entity.AimsEntity;
 import com.yaoyao.yiuse.manager.R;
 import com.yaoyao.yiuse.manager.R2;
+import com.yaoyao.yiuse.manager.activity.presenter.callback.CallBack;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -38,7 +39,11 @@ public class CreateSortDialog extends Dialog {
      */
     private Context mContext;
 
+    public void setCallBack(CallBack callBack) {
+        this.callBack = callBack;
+    }
 
+    private CallBack callBack;
     /**
      * constructor 构造对话框对象
      *
@@ -47,6 +52,7 @@ public class CreateSortDialog extends Dialog {
     public CreateSortDialog(Context context) {
         super(context, R.style.public_dialog);
         this.setContentView(R.layout.dialog_manager_create_sort);
+        ButterKnife.bind(this);
         this.mContext = context;
         this.init(context);
     }
@@ -71,15 +77,18 @@ public class CreateSortDialog extends Dialog {
      * @param sortName
      */
     private void createSort(String sortName) {
-        if(TextUtils.isEmpty(sortName)){
+        if(!TextUtils.isEmpty(sortName)){
             String realName=sortName.trim();
             if(FormatUtils.isVerifyName(realName)){
                 AimsEntityDao dao=DbManager.getInstance().getEntityDao(AimsEntityDao.class);
-                boolean isExist=dao.queryBuilder().where(ResourcesEntityDao.Properties.Name.eq(sortName)).count()>0?true:false;
+                boolean isExist=dao.queryBuilder().where(AimsEntityDao.Properties.AimName.eq(sortName)).count()>0?true:false;
                 if(isExist){
                     ToastUtils.showShortToast("该分类已存在");
                 }else{
-                    dao.insert(AimsEntity.createEntity(sortName, UserInfo.getUserId()));
+                    long id=dao.insert(AimsEntity.createEntity(sortName, UserInfo.getUserId()));
+                    if(id>0&&callBack!=null){
+                        callBack.onSuccess(null);
+                    }
                     dismiss();
                 }
 

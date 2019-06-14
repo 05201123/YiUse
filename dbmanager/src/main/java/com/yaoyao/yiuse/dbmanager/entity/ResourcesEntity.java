@@ -1,12 +1,14 @@
 package com.yaoyao.yiuse.dbmanager.entity;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Unique;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by zhangjd on 2019/6/5.
+ * 资源标签
  */
 @Entity
 public class ResourcesEntity {
@@ -14,7 +16,7 @@ public class ResourcesEntity {
     private Long id;
     @Unique
     private String resId;
-
+    @NotNull
     private String aimId;
     /**本地地址*/
     private String localpath;
@@ -22,9 +24,11 @@ public class ResourcesEntity {
     private String md5;
     private String name;
     private long addTime;
-    @Generated(hash = 1380588196)
-    public ResourcesEntity(Long id, String resId, String aimId, String localpath,
-            String netUrl, String md5, String name, long addTime) {
+
+    @Generated(hash = 371313564)
+    public ResourcesEntity(Long id, String resId, @NotNull String aimId,
+            String localpath, String netUrl, String md5, String name,
+            long addTime) {
         this.id = id;
         this.resId = resId;
         this.aimId = aimId;
