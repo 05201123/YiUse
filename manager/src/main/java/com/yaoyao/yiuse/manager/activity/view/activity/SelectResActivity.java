@@ -27,7 +27,7 @@ import butterknife.OnClick;
  * Created by zhangjd on 2019/5/23.
  */
 
-public class ManagerMainActivity2 extends BaseActivity implements IManagerMain2AView {
+public class SelectResActivity extends BaseActivity implements IManagerMain2AView {
 
 
     @BindView(R2.id.recyclerview)
@@ -42,7 +42,7 @@ public class ManagerMainActivity2 extends BaseActivity implements IManagerMain2A
     private IManagerMain2APresenter mIManagerMain2APresenter;
 
     public static void startAcitivty(Context context) {
-        Intent intent = new Intent(context, ManagerMainActivity2.class);
+        Intent intent = new Intent(context, SelectResActivity.class);
         context.startActivity(intent);
 
     }
@@ -51,7 +51,7 @@ public class ManagerMainActivity2 extends BaseActivity implements IManagerMain2A
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIManagerMain2APresenter = new ManagerMain2APresenterImpl(this);
-        setContentView(R.layout.activity_manager_main);
+        setContentView(R.layout.activity_select_res_main);
         ButterKnife.bind(this);
         initView();
         initData();

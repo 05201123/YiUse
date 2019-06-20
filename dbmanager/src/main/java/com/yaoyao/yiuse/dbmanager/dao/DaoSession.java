@@ -9,10 +9,12 @@ import org.greenrobot.greendao.identityscope.IdentityScopeType;
 import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.yaoyao.yiuse.dbmanager.entity.AimsEntity;
+import com.yaoyao.yiuse.dbmanager.entity.ResAndTagEntity;
 import com.yaoyao.yiuse.dbmanager.entity.ResourcesEntity;
 import com.yaoyao.yiuse.dbmanager.entity.ResTagEntity;
 
 import com.yaoyao.yiuse.dbmanager.dao.AimsEntityDao;
+import com.yaoyao.yiuse.dbmanager.dao.ResAndTagEntityDao;
 import com.yaoyao.yiuse.dbmanager.dao.ResourcesEntityDao;
 import com.yaoyao.yiuse.dbmanager.dao.ResTagEntityDao;
 
@@ -26,10 +28,12 @@ import com.yaoyao.yiuse.dbmanager.dao.ResTagEntityDao;
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig aimsEntityDaoConfig;
+    private final DaoConfig resAndTagEntityDaoConfig;
     private final DaoConfig resourcesEntityDaoConfig;
     private final DaoConfig resTagEntityDaoConfig;
 
     private final AimsEntityDao aimsEntityDao;
+    private final ResAndTagEntityDao resAndTagEntityDao;
     private final ResourcesEntityDao resourcesEntityDao;
     private final ResTagEntityDao resTagEntityDao;
 
@@ -40,6 +44,9 @@ public class DaoSession extends AbstractDaoSession {
         aimsEntityDaoConfig = daoConfigMap.get(AimsEntityDao.class).clone();
         aimsEntityDaoConfig.initIdentityScope(type);
 
+        resAndTagEntityDaoConfig = daoConfigMap.get(ResAndTagEntityDao.class).clone();
+        resAndTagEntityDaoConfig.initIdentityScope(type);
+
         resourcesEntityDaoConfig = daoConfigMap.get(ResourcesEntityDao.class).clone();
         resourcesEntityDaoConfig.initIdentityScope(type);
 
@@ -47,22 +54,29 @@ public class DaoSession extends AbstractDaoSession {
         resTagEntityDaoConfig.initIdentityScope(type);
 
         aimsEntityDao = new AimsEntityDao(aimsEntityDaoConfig, this);
+        resAndTagEntityDao = new ResAndTagEntityDao(resAndTagEntityDaoConfig, this);
         resourcesEntityDao = new ResourcesEntityDao(resourcesEntityDaoConfig, this);
         resTagEntityDao = new ResTagEntityDao(resTagEntityDaoConfig, this);
 
         registerDao(AimsEntity.class, aimsEntityDao);
+        registerDao(ResAndTagEntity.class, resAndTagEntityDao);
         registerDao(ResourcesEntity.class, resourcesEntityDao);
         registerDao(ResTagEntity.class, resTagEntityDao);
     }
     
     public void clear() {
         aimsEntityDaoConfig.clearIdentityScope();
+        resAndTagEntityDaoConfig.clearIdentityScope();
         resourcesEntityDaoConfig.clearIdentityScope();
         resTagEntityDaoConfig.clearIdentityScope();
     }
 
     public AimsEntityDao getAimsEntityDao() {
         return aimsEntityDao;
+    }
+
+    public ResAndTagEntityDao getResAndTagEntityDao() {
+        return resAndTagEntityDao;
     }
 
     public ResourcesEntityDao getResourcesEntityDao() {

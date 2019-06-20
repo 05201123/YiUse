@@ -4,7 +4,10 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.NotNull;
+import org.greenrobot.greendao.annotation.Transient;
 import org.greenrobot.greendao.annotation.Unique;
+
+import java.util.List;
 
 /**
  * Created by zhangjd on 2019/6/5.
@@ -24,11 +27,14 @@ public class ResourcesEntity {
     private String md5;
     private String name;
     private long addTime;
+    private int fileType;//1.pic 2.video 3.file,4.txt 6
+    @Transient
+    private List<ResourcesEntity> resTagList;
 
-    @Generated(hash = 371313564)
+    @Generated(hash = 892462158)
     public ResourcesEntity(Long id, String resId, @NotNull String aimId,
-            String localpath, String netUrl, String md5, String name,
-            long addTime) {
+            String localpath, String netUrl, String md5, String name, long addTime,
+            int fileType) {
         this.id = id;
         this.resId = resId;
         this.aimId = aimId;
@@ -37,6 +43,7 @@ public class ResourcesEntity {
         this.md5 = md5;
         this.name = name;
         this.addTime = addTime;
+        this.fileType = fileType;
     }
     @Generated(hash = 606657380)
     public ResourcesEntity() {
@@ -88,6 +95,18 @@ public class ResourcesEntity {
     }
     public void setAddTime(long addTime) {
         this.addTime = addTime;
+    }
+    public int getFileType() {
+        return this.fileType;
+    }
+    public void setFileType(int fileType) {
+        this.fileType = fileType;
+    }
+    public List<ResourcesEntity> getResTagList() {
+        return resTagList;
+    }
+    public void setResTagList(List<ResourcesEntity> resTagList) {
+        this.resTagList = resTagList;
     }
 
 

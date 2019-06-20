@@ -32,6 +32,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
         public final static Property Md5 = new Property(5, String.class, "md5", false, "MD5");
         public final static Property Name = new Property(6, String.class, "name", false, "NAME");
         public final static Property AddTime = new Property(7, long.class, "addTime", false, "ADD_TIME");
+        public final static Property FileType = new Property(8, int.class, "fileType", false, "FILE_TYPE");
     }
 
 
@@ -54,7 +55,8 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
                 "\"NET_URL\" TEXT," + // 4: netUrl
                 "\"MD5\" TEXT," + // 5: md5
                 "\"NAME\" TEXT," + // 6: name
-                "\"ADD_TIME\" INTEGER NOT NULL );"); // 7: addTime
+                "\"ADD_TIME\" INTEGER NOT NULL ," + // 7: addTime
+                "\"FILE_TYPE\" INTEGER NOT NULL );"); // 8: fileType
     }
 
     /** Drops the underlying database table. */
@@ -98,6 +100,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
             stmt.bindString(7, name);
         }
         stmt.bindLong(8, entity.getAddTime());
+        stmt.bindLong(9, entity.getFileType());
     }
 
     @Override
@@ -135,6 +138,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
             stmt.bindString(7, name);
         }
         stmt.bindLong(8, entity.getAddTime());
+        stmt.bindLong(9, entity.getFileType());
     }
 
     @Override
@@ -152,7 +156,8 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // netUrl
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // md5
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // name
-            cursor.getLong(offset + 7) // addTime
+            cursor.getLong(offset + 7), // addTime
+            cursor.getInt(offset + 8) // fileType
         );
         return entity;
     }
@@ -167,6 +172,7 @@ public class ResourcesEntityDao extends AbstractDao<ResourcesEntity, Long> {
         entity.setMd5(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setAddTime(cursor.getLong(offset + 7));
+        entity.setFileType(cursor.getInt(offset + 8));
      }
     
     @Override

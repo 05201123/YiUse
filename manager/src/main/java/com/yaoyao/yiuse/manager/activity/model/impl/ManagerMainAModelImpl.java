@@ -18,7 +18,7 @@ public class ManagerMainAModelImpl implements IManagerMainAModel {
         if(list!=null){
             ResourcesEntityDao resDao=DbManager.getInstance().getEntityDao(ResourcesEntityDao.class);
             for (AimsEntity entity:list){
-                List<ResourcesEntity> reslist= resDao.queryBuilder().where(ResourcesEntityDao.Properties.AimId.eq(entity.getId())).list();
+                List<ResourcesEntity> reslist= resDao.queryBuilder().where(ResourcesEntityDao.Properties.AimId.eq(entity.getId())).limit(3).orderDesc(ResourcesEntityDao.Properties.AddTime).list();
                 entity.setReslist(reslist);
             }
         }
