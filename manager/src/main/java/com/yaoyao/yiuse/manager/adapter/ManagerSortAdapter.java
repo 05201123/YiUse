@@ -15,6 +15,7 @@ import com.yaoyao.yiuse.dbmanager.entity.AimsEntity;
 import com.yaoyao.yiuse.dbmanager.entity.ResourcesEntity;
 import com.yaoyao.yiuse.manager.R;
 import com.yaoyao.yiuse.manager.R2;
+import com.yaoyao.yiuse.manager.activity.view.activity.SelectResActivity;
 import com.yaoyao.yiuse.manager.constants.ResConstants;
 
 import java.util.ArrayList;
@@ -118,9 +119,7 @@ public class ManagerSortAdapter extends RecyclerView.Adapter<ManagerSortAdapter.
     public void onClick(View v) {
         ResourcesEntity entity= (ResourcesEntity) v.getTag(R.layout.view_item_manager_sort);
         if(entity.equals(nullRes)){
-
-
-
+            SelectResActivity.startAcitivty(mContext);
         }else{
             //TODO
             ToastUtils.showShortToast("待做");
